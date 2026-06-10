@@ -1,0 +1,20 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated files
+node_modules/
+*.csv
+*.log
+
+# Packaged Electron runtime (keep resources/app source files)
+TestCaseGenerator-win32-x64/*
+!TestCaseGenerator-win32-x64/resources/
+TestCaseGenerator-win32-x64/resources/*
+!TestCaseGenerator-win32-x64/resources/app/
+TestCaseGenerator-win32-x64/resources/app/node_modules/
+
+# Operating system files
+.DS_Store
+Thumbs.db

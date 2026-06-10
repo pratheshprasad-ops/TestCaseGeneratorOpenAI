@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Test Case Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5; /* Light gray background for the window */
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: calc(100% - 20px); /* Adjusted width to match container width */
+            box-sizing: border-box; /* Ensures padding is included in width calculation */
+        }
+        button {
+            padding: 6px 12px; /* Smaller padding for the button */
+            font-size: 14px; /* Adjust font size if needed */
+            background-color: #f4c542; /* Less bright yellow */
+            border: 2px solid black; /* Black border around the button */
+            cursor: pointer; /* Change cursor to pointer on hover */
+            color: black; /* Text color to contrast with background */
+        }
+        button:hover {
+            background-color: #e0b635; /* Slightly darker yellow on hover for better visibility */
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>TEST CASE GENERATOR</h1>
+    <input type="text" id="jiraUrl" placeholder="Enter your JIRA ticket URL" />
+    <button id="generate">Generate Test Cases</button>
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('generate').addEventListener('click', async () => {
+            const url = document.getElementById('jiraUrl').value;
+            if (!url) {
+                alert('Please enter a JIRA ticket URL.');
+                return;
+            }
+
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = 'Generating test cases...';
+
+            try {
+                const response = await window.electron.generateTestCases(url);
+                if (response.success) {
+                    resultElement.innerHTML = `Test cases generated successfully! <br> <a href="file://${response.filePath}" download>Download CSV</a>`;
+                } else {
+                    resultElement.textContent = `Error: ${response.message}`;
+                }
+            } catch (error) {
+                resultElement.textContent = `An unexpected error occurred: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
