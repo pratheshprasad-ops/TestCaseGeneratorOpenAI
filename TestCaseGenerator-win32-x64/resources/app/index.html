@@ -27,6 +27,12 @@
         button:hover {
             background-color: #e0b635; /* Slightly darker yellow on hover for better visibility */
         }
+        button:disabled {
+            background-color: #ccc;
+            border-color: #999;
+            color: #666;
+            cursor: not-allowed;
+        }
         .result {
             margin-top: 20px;
         }
@@ -46,7 +52,11 @@
                 return;
             }
 
+            const button = document.getElementById('generate');
             const resultElement = document.getElementById('result');
+
+            button.disabled = true;
+            button.textContent = 'Generating...';
             resultElement.textContent = 'Generating test cases...';
 
             try {
@@ -58,6 +68,9 @@
                 }
             } catch (error) {
                 resultElement.textContent = `An unexpected error occurred: ${error.message}`;
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Generate Test Cases';
             }
         });
     </script>
